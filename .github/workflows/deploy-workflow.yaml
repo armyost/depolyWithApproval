@@ -1,0 +1,24 @@
+name: Deployment
+on: push
+
+jobs:
+  deploy-dev:
+    name: Deploy(Dev)
+    uses: ./.github/workflows/ci.yaml
+    with:
+        environment: develop
+
+  deploy-stage:
+    name: Deploy(Stage)
+    needs: deploy-dev
+    uses: ./.github/workflows/ci.yaml
+    with:
+        environment: stage
+
+
+  deploy-production:
+    name: Deploy(Production)
+    needs: deploy-stage
+    uses: ./.github/workflows/ci.yaml
+    with:
+        environment: production
